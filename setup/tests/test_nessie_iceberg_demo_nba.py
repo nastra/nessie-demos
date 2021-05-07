@@ -18,6 +18,7 @@
 from assertpy import assert_that
 
 import pytest
+import os
 
 from testbook import testbook
 
@@ -64,7 +65,11 @@ num_salaries_on_main = """+--------+
 
 @pytest.fixture(scope='module')
 def notebook():
-    with testbook('../../colab/nessie-iceberg-demo-nba.ipynb', execute=True) as tb:
+    path = os.path.abspath("../..")
+    if not os.path.exists(path):
+        path = os.path.abspath(".")
+    path_to_notebook = os.path.join(path, "colab/nessie-iceberg-demo-nba.ipynb")
+    with testbook(path_to_notebook, execute=True) as tb:
         yield tb
 
 
